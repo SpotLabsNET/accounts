@@ -42,4 +42,35 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
     return null;
   }
 
+  /**
+   * Basic implementation of {@link #checkFields()} using regular expressions.
+   * @return array of errors or {@code false} if there are no errors
+   */
+  public function checkFields($account) {
+    $errors = array();
+
+    foreach ($this->getFields() as $key => $field) {
+      $title = $field['title'];
+
+      if (!isset($account[$key])) {
+        if (!isset($errors[$key])) {
+          $errors[$key] = array();
+        }
+        $errors[$key][] = "'$title' needs to be provided.";
+        continue;
+      }
+
+      if (isset($field['regexp'])) {
+        if (!preg_match($field['regexp'], $account[$key])) {
+          if (!isset($errors[$key])) {
+            $errors[$key] = array();
+          }
+          $errors[$key][] = "Invalid value for '$title'.";
+        }
+      }
+    }
+
+    return $errors;
+  }
+
 }

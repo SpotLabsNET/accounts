@@ -32,6 +32,14 @@ interface AccountType {
   public function getFields();
 
   /**
+   * Check that all of these given account fields satisfy the requirements of
+   * {@link #getFields()}.
+   *
+   * @return empty array on success, or an array of (key => array(errors)) if not successful
+   */
+  public function checkFields($account);
+
+  /**
    * Get a list of all the currencies supported by this account (e.g. "btc", "ltc", ...).
    * Uses currency codes from openclerk/currencies.
    * May block.

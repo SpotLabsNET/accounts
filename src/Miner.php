@@ -2,8 +2,7 @@
 
 namespace Account;
 
-use \Openclerk\Currencies\Currency;
-use \Openclerk\Currencies\HashableCurrency;
+use \Monolog\Logger;
 
 /**
  * Represents some type of cryptocurrency miner or mining pool.
@@ -17,6 +16,6 @@ interface Miner extends AccountType {
    * support mining.
    * May block.
    */
-  public function fetchSupportedHashrateCurrencies($logger);
+  public function fetchSupportedHashrateCurrencies(Logger $logger);
 
 }
