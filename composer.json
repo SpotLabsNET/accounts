@@ -1,0 +1,16 @@
+{
+  "name": "openclerk/accounts",
+  "description": "Definitions and implementations of accounts in Openclerk",
+  "autoload": {
+    "psr-4": {
+      "Account\\": "src",
+      "Account\\Tests\\": "test"
+    }
+  },
+  "require": {
+    "monolog/monolog": "~1.11"
+  },
+  "require-dev": {
+    "soundasleep/component-tests": "dev-master"
+  }
+}
