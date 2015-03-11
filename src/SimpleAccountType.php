@@ -73,4 +73,24 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
     return $errors;
   }
 
+  var $first_request = true;
+
+  /**
+   * This allows all exchanges to optionally throttle multiple repeated
+   * requests based on a runtime configuration value.
+   * The throttle time is selected from either the
+   * `accounts_NAME_throttle` or `accounts_throttle` config values,
+   * or three seconds;
+   * which is the time in seconds to wait between repeated requests.
+   */
+  public function throttle(Logger $logger) {
+    if (!$this->first_request) {
+      $seconds = Config::get("accounts_" . $this->getCode() . "_throttle", Config::get("accounts_throttle", 3 /* default */));
+      $logger->info("Throttling for " . $seconds . " seconds");
+      set_time_limit(30 + ($seconds * 2));
+      sleep($seconds);
+    }
+    $this->first_request = false;
+  }
+
 }
