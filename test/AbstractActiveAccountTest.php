@@ -50,7 +50,7 @@ abstract class AbstractActiveAccountTest extends AbstractAccountTest {
 
   function testValidValues() {
     $account = $this->getValidAccount();
-    $balances = $this->account->fetchBalances($account, $this->logger);
+    $balances = $this->account->fetchBalances($account, $this->factory, $this->logger);
     $this->doTestValidValues($balances);
   }
 
@@ -68,7 +68,7 @@ abstract class AbstractActiveAccountTest extends AbstractAccountTest {
   function testMissingValues() {
     $account = $this->getMissingAccount();
     try {
-      $balances = $this->account->fetchBalances($account, $this->logger);
+      $balances = $this->account->fetchBalances($account, $this->factory, $this->logger);
       $this->fail("Expected an AccountFetchException");
     } catch (AccountFetchException $e) {
       // expected
@@ -83,7 +83,7 @@ abstract class AbstractActiveAccountTest extends AbstractAccountTest {
   function testInvalidValues() {
     $account = $this->getInvalidAccount();
     try {
-      $balances = $this->account->fetchBalances($account, $this->logger);
+      $balances = $this->account->fetchBalances($account, $this->factory, $this->logger);
       $this->fail("Expected an AccountFetchException");
     } catch (AccountFetchException $e) {
       // expected
@@ -113,8 +113,8 @@ abstract class AbstractActiveAccountTest extends AbstractAccountTest {
    * not listed in {@link #fetchSupportedCurrencies()}.
    */
   function testValidAccountMatchCurrencies() {
-    $supported = $this->account->fetchSupportedCurrencies($this->logger);
-    $balances = $this->account->fetchBalances($this->getValidAccount(), $this->logger);
+    $supported = $this->account->fetchSupportedCurrencies($this->factory, $this->logger);
+    $balances = $this->account->fetchBalances($this->getValidAccount(), $this->factory, $this->logger);
 
     foreach ($balances as $cur => $balance) {
       if (!in_array($cur, $supported)) {

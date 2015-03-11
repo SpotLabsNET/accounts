@@ -10,14 +10,16 @@ use Account\AccountType;
 use Account\AccountFetchException;
 use Openclerk\Config;
 use Openclerk\Currencies\Currency;
+use Openclerk\Currencies\CurrencyFactory;
 
 /**
  * Abstracts away common test functionality.
  */
-abstract class AbstractAccountTest extends \PHPUnit_Framework_TestCase {
+abstract class AbstractAccountTest extends \PHPUnit_Framework_TestCase implements CurrencyFactory {
 
   function __construct(AccountType $account) {
     $this->logger = new Logger("test");
+    $this->factory = $this;
     $this->account = $account;
 
     if ($this->isDebug()) {
@@ -29,6 +31,13 @@ abstract class AbstractAccountTest extends \PHPUnit_Framework_TestCase {
     Config::merge(array(
       "get_contents_timeout" => 30,
     ));
+  }
+
+  /**
+   * By default, returns {@code null} for all currencies.
+   */
+  function loadCurrency($cur) {
+    return null;
   }
 
   function isDebug() {

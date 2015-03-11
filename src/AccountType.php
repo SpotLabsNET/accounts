@@ -3,6 +3,7 @@
 namespace Account;
 
 use \Monolog\Logger;
+use \Openclerk\Currencies\CurrencyFactory;
 
 /**
  * Represents some type of third-party account, for example
@@ -43,35 +44,51 @@ interface AccountType {
    * Get a list of all the currencies supported by this account (e.g. "btc", "ltc", ...).
    * Uses currency codes from openclerk/currencies.
    * May block.
+   *
+   * We need to have a reference to a {@link CurrencyFactory} because we might
+   * need to find out runtime properties of a currency in order to correctly
+   * distinguish hash rates, currency codes etc.
    */
-  public function fetchSupportedCurrencies(Logger $logger);
+  public function fetchSupportedCurrencies(CurrencyFactory $factory, Logger $logger);
 
   /**
    * Get all balances for this account.
    * May block.
    *
+   * We need to have a reference to a {@link CurrencyFactory} because we might
+   * need to find out runtime properties of a currency in order to correctly
+   * distinguish hash rates, currency codes etc.
+   *
    * @param $account fields that satisfy {@link #getFields()}
    * @return an array of ('cur' => ('confirmed', 'unconfirmed', 'hashrate', ...))
    */
-  public function fetchBalances($account, Logger $logger);
+  public function fetchBalances($account, CurrencyFactory $factory, Logger $logger);
 
   /**
    * Helper function to get all balances for the given currency for this account,
    * or {@code null} if there is no balance for this currency.
    * May block.
    *
+   * We need to have a reference to a {@link CurrencyFactory} because we might
+   * need to find out runtime properties of a currency in order to correctly
+   * distinguish hash rates, currency codes etc.
+   *
    * @param $account fields that satisfy {@link #getFields()}
    * @return array('confirmed', 'unconfirmed', 'hashrate', ...) or {@code null}
    */
-  public function fetchBalance($currency, $account, Logger $logger);
+  public function fetchBalance($currency, $account, CurrencyFactory $factory, Logger $logger);
 
   /**
    * Helper function to get the current, confirmed, available balance of the given currency
    * for this account.
    * May block.
    *
+   * We need to have a reference to a {@link CurrencyFactory} because we might
+   * need to find out runtime properties of a currency in order to correctly
+   * distinguish hash rates, currency codes etc.
+   *
    * @param $account fields that satisfy {@link #getFields()}
    */
-  public function fetchConfirmedBalance($currency, $account, Logger $logger);
+  public function fetchConfirmedBalance($currency, $account, CurrencyFactory $factory, Logger $logger);
 
 }

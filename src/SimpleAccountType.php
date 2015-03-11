@@ -4,6 +4,7 @@ namespace Account;
 
 use \Monolog\Logger;
 use \Openclerk\Config;
+use \Openclerk\Currencies\CurrencyFactory;
 
 /**
  * Implements some basic helper methods for an account type.
@@ -18,8 +19,8 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
    * @param $account fields that satisfy {@link #getFields()}
    * @return array('confirmed', 'unconfirmed', 'hashrate', ...) or {@code null}
    */
-  public function fetchBalance($currency, $account, Logger $logger) {
-    $balances = $this->fetchBalances($account, $logger);
+  public function fetchBalance($currency, $account, CurrencyFactory $factory, Logger $logger) {
+    $balances = $this->fetchBalances($account, $factory, $logger);
     if (isset($balances[$currency])) {
       return $balances[$currency];
     }
@@ -35,8 +36,8 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
    * @param $account fields that satisfy {@link #getFields()}
    * @return confirmed balance or {@code null}
    */
-  public function fetchConfirmedBalance($currency, $account, Logger $logger) {
-    $balance = $this->fetchBalance($currency, $account, $logger);
+  public function fetchConfirmedBalance($currency, $account, CurrencyFactory $factory, Logger $logger) {
+    $balance = $this->fetchBalance($currency, $account, $factory, $logger);
     if ($balance !== null) {
       return $balance['confirmed'];
     }

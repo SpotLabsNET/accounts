@@ -8,6 +8,7 @@
     }
   },
   "require": {
+    "openclerk/currencies": "dev-master",
     "monolog/monolog": "~1.11"
   },
   "require-dev": {

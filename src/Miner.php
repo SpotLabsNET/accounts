@@ -3,6 +3,7 @@
 namespace Account;
 
 use \Monolog\Logger;
+use \Openclerk\Currencies\CurrencyFactory;
 
 /**
  * Represents some type of cryptocurrency miner or mining pool.
@@ -16,6 +17,6 @@ interface Miner extends AccountType {
    * support mining.
    * May block.
    */
-  public function fetchSupportedHashrateCurrencies(Logger $logger);
+  public function fetchSupportedHashrateCurrencies(CurrencyFactory $factory, Logger $logger);
 
 }
