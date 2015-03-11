@@ -3,6 +3,7 @@
 namespace Account;
 
 use \Monolog\Logger;
+use \Openclerk\Config;
 
 /**
  * Implements some basic helper methods for an account type.
@@ -73,24 +74,25 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
     return $errors;
   }
 
-  var $first_request = true;
+  static $throttled = array();
 
   /**
    * This allows all exchanges to optionally throttle multiple repeated
    * requests based on a runtime configuration value.
    * The throttle time is selected from either the
    * `accounts_NAME_throttle` or `accounts_throttle` config values,
-   * or three seconds;
+   * or {@code $default} seconds;
    * which is the time in seconds to wait between repeated requests.
+   * @param $default the default delay, or 3 seconds if not specified
    */
-  public function throttle(Logger $logger) {
-    if (!$this->first_request) {
-      $seconds = Config::get("accounts_" . $this->getCode() . "_throttle", Config::get("accounts_throttle", 3 /* default */));
+  public function throttle(Logger $logger, $default = 3) {
+    if (isset(self::$throttled[$this->getCode()])) {
+      $seconds = Config::get("accounts_" . $this->getCode() . "_throttle", Config::get("accounts_throttle", $default /* default */));
       $logger->info("Throttling for " . $seconds . " seconds");
       set_time_limit(30 + ($seconds * 2));
       sleep($seconds);
     }
-    $this->first_request = false;
+    self::$throttled[$this->getCode()] = time();
   }
 
 }
