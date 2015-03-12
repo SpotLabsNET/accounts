@@ -123,4 +123,17 @@ abstract class AbstractActiveAccountTest extends AbstractAccountTest {
     }
   }
 
+  /**
+   * Check that all currencies returned by {@link #fetchSupportedCurrencies()}
+   * are three characters long, i.e. valid openclerk/currencies codes.
+   */
+  function testCurrencyCodes() {
+    $supported = $this->account->fetchSupportedCurrencies($this->factory, $this->logger);
+
+    foreach ($supported as $cur) {
+      $this->assertEquals(3, strlen($cur), "Expected currency code length 3: got '$cur'");
+      $this->assertRegexp("/^[a-z0-9]{3}$/", $cur);
+    }
+  }
+
 }
