@@ -59,6 +59,12 @@ interface AccountType {
    * need to find out runtime properties of a currency in order to correctly
    * distinguish hash rates, currency codes etc.
    *
+   * Returned results may include:
+   * - confirmed: raw confirmed currency balance (e.g. 1.0 = 1 BTC)
+   * - unconfirmed: raw unconfirmed balance (e.g. 1.0 = 1 BTC)
+   * - hashrate: raw hash rate per second (e.g. 1.0 = 1 H/s)
+   * - workers: number of workers
+   *
    * @param $account fields that satisfy {@link #getFields()}
    * @return an array of ('cur' => ('confirmed', 'unconfirmed', 'hashrate', ...))
    */
