@@ -72,6 +72,7 @@ abstract class AbstractActiveAccountTest extends AbstractAccountTest {
       $this->fail("Expected an AccountFetchException");
     } catch (AccountFetchException $e) {
       // expected
+      $this->assertGreaterThan(0, strlen($e->getMessage()), "Expected missing account to return an error message");
     }
   }
 
@@ -87,6 +88,7 @@ abstract class AbstractActiveAccountTest extends AbstractAccountTest {
       $this->fail("Expected an AccountFetchException");
     } catch (AccountFetchException $e) {
       // expected
+      $this->assertGreaterThan(0, strlen($e->getMessage()), "Expected an invalid account to return an error message");
     }
   }
 
