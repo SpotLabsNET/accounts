@@ -74,4 +74,25 @@ abstract class AbstractAccountTest extends \PHPUnit_Framework_TestCase implement
     $this->assertTrue($this->account instanceof \Account\DisabledAccount, "Should be a disabled account");
   }
 
+  /**
+   * Return a file path to {@code __DIR__ . "/../accounts.json"}, by default.
+   */
+  abstract function getAccountsJSON();
+
+  static $tested_codes = array();
+
+  function testUniqueCode() {
+    $code = $this->account->getCode();
+    $this->assertFalse(isset(self::$tested_codes[$code]), "We've already tested an account '$code'");
+    self::$tested_codes[$code] = $code;
+  }
+
+  function testCodeInAccountsJson() {
+    $this->assertFileExists($this->getAccountsJSON());
+    $json = json_decode(file_get_contents($this->getAccountsJSON()), true /* assoc */);
+    $code = $this->account->getCode();
+    $this->assertTrue(isset($json[$code]), "Expected '$code' account in accounts.json");
+    $this->assertEquals("\\" . get_class($this->account), $json[$code], "Expected '$code' to return the same class");
+  }
+
 }
