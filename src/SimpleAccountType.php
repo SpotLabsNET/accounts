@@ -70,6 +70,15 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
           $errors[$key][] = "Invalid value for '$title'.";
         }
       }
+
+      if (isset($field['type'])) {
+        if ($field['type'] == "confirm" && !$account[$key]) {
+          if (!isset($errors[$key])) {
+            $errors[$key] = array();
+          }
+          $errors[$key][] = "Need to confirm '$title'.";
+        }
+      }
     }
 
     return $errors;
