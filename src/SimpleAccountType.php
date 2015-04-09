@@ -46,7 +46,8 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
 
   /**
    * Basic implementation of {@link #checkFields()} using regular expressions.
-   * @return array of errors or {@code false} if there are no errors
+   *
+   * @return array of (error string, array(args)) errors or {@code false} if there are no errors
    */
   public function checkFields($account) {
     $errors = array();
@@ -58,7 +59,10 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
         if (!isset($errors[$key])) {
           $errors[$key] = array();
         }
-        $errors[$key][] = "'$title' needs to be provided.";
+        $errors[$key][] = array(
+          "':title' needs to be provided.",
+          array(":title" => $title),
+        );
         continue;
       }
 
@@ -67,7 +71,10 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
           if (!isset($errors[$key])) {
             $errors[$key] = array();
           }
-          $errors[$key][] = "Invalid value for '$title'.";
+          $errors[$key][] = array(
+            "Invalid value for ':title'.",
+            array(":title" => $title),
+          );
         }
       }
 
@@ -76,7 +83,10 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
           if (!isset($errors[$key])) {
             $errors[$key] = array();
           }
-          $errors[$key][] = "Need to confirm '$title'.";
+          $errors[$key][] = array(
+            "Need to confirm ':title'.",
+            array(":title" => $title),
+          );
         }
       }
     }

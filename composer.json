@@ -12,6 +12,7 @@
     "monolog/monolog": "~1.11"
   },
   "require-dev": {
+    "openclerk/config": "dev-master",
     "soundasleep/component-tests": "dev-master"
   }
 }
