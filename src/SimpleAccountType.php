@@ -60,7 +60,7 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
           $errors[$key] = array();
         }
         $errors[$key][] = array(
-          "':title' needs to be provided.",
+          "':title' needs to be provided." /* i18n */,
           array(":title" => $title),
         );
         continue;
@@ -72,7 +72,7 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
             $errors[$key] = array();
           }
           $errors[$key][] = array(
-            "Invalid value for ':title'.",
+            "Invalid value for ':title'." /* i18n */,
             array(":title" => $title),
           );
         }
@@ -84,7 +84,7 @@ abstract class SimpleAccountType implements AccountType, AccountTypeInformation 
             $errors[$key] = array();
           }
           $errors[$key][] = array(
-            "Need to confirm ':title'.",
+            "Need to confirm ':title'." /* i18n */,
             array(":title" => $title),
           );
         }
