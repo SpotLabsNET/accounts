@@ -43,7 +43,7 @@ interface SecurityExchangeAccountType extends AccountType {
    * for this account.
    * May block.
    *
-   * @param $account fields that satisfy {@link #getFields()}
+   * @param $account fields that satisfy {@link #getFields()} or {@code null}
    */
   public function fetchSecurityBalance($security, $account, Logger $logger);
 
